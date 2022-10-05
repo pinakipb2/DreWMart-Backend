@@ -19,12 +19,13 @@ model Retailer {
   Store         Store[]
 }
 
+// warrantyDuration is in months
 model Product {
   id               String   @id @default(cuid())
   name             String   @unique
   price            Decimal  @db.Decimal(9, 2)
   image            String   @unique
-  rating           Int      @default(1)
+  rating           Decimal  @default(1) @db.Decimal(9, 1)
   color            String
   highlights       Json     @unique
   description      String   @unique

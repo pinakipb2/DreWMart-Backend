@@ -1,8 +1,7 @@
 import createError from 'http-errors';
 import { prisma } from '../../prisma';
 import { retailerSchema } from '../validators';
-import { v4 as uuidv4 } from 'uuid';
-import cuid from 'cuid';
+import ProductIdService from '../services/ProductIdService';
 
 const ASSIGN_NO_OF_PRODUCTS_TO_RETAILER = 5;
 
@@ -38,9 +37,8 @@ const retailerController = {
       const arr = [];
       for (let i = 0; i < products.length; i++) {
         for (let j = 0; j < ASSIGN_NO_OF_PRODUCTS_TO_RETAILER; j++) {
-          const baseId = uuidv4().split('-');
           const obj = {
-            prodId: baseId[0] + '-' + baseId[1] + '-' + cuid(),
+            prodId: ProductIdService.generateProductID(),
             productId: products[i].id,
             retailerId: retailer.id,
           };

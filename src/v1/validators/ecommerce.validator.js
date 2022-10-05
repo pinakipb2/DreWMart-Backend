@@ -1,11 +1,11 @@
 import Joi from 'joi';
 
 const ecommerceSchema = Joi.object({
-  walletAddress: Joi.string().trim().min(6).max(41).required(),
+  walletAddress: Joi.string().trim().min(35).max(50).required(),
   cart: Joi.array()
     .items(
       Joi.object({
-        productId: Joi.string().trim().required(),
+        productId: Joi.string().trim().min(20).max(30).required(),
         quantity: Joi.number().min(1).max(10).required(),
       })
     )
