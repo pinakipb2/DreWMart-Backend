@@ -4,6 +4,7 @@ import { ecommerceSchema, userSchema } from '../validators';
 import { productDTO } from '../dtos';
 import Joi from 'joi';
 import ProductIdService from '../services/ProductIdService';
+import axios from 'axios';
 
 const ecommerceController = {
   async buyProducts(req, res, next) {
@@ -103,6 +104,12 @@ const ecommerceController = {
           isWarrantyClaimed: true,
         },
       });
+      // Run webhook to revalidate page
+      try {
+        await axios.get(`${process.env.FRONTEND_URL}/api/revalidate?warrantyId=${id}`);
+      } catch (err) {
+        console.log('Could not Revalidate Page');
+      }
       res.json(product);
     } catch (err) {
       console.log(err.message);
