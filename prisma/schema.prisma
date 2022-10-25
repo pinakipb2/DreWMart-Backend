@@ -11,12 +11,22 @@ datasource db {
 }
 
 model Retailer {
-  id            String   @id @default(cuid())
-  name          String
-  walletAddress String   @unique
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  Store         Store[]
+  id              String            @id @default(cuid())
+  name            String
+  walletAddress   String            @unique
+  drewTokens      BigInt            @default(0)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Store           Store[]
+  RetailerCoupons RetailerCoupons[]
+}
+
+model Admin {
+  id String @id @default(cuid())
+  name String
+  walletAddress String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // warrantyDuration is in months
@@ -47,4 +57,23 @@ model Store {
   isWarrantyClaimed Boolean   @default(false)
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+}
+
+model CouponItems {
+  id              String            @id @default(cuid())
+  name            String            @unique
+  price           BigInt            @default(100)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  RetailerCoupons RetailerCoupons[]
+}
+
+model RetailerCoupons {
+  id            String      @id @default(cuid())
+  Retailer      Retailer    @relation(fields: [retailerId], references: [id])
+  retailerId    String
+  CouponItem    CouponItems @relation(fields: [couponItemsId], references: [id])
+  couponItemsId String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
