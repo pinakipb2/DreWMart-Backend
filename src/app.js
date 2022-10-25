@@ -4,13 +4,12 @@ import cors from 'cors';
 import createError from 'http-errors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import morgan from 'morgan';
 import xss from 'xss-clean';
 import path from 'path';
 
 import { productRoutes, retailerRoutes, ecommerceRoutes } from './v1/routes';
 import { clientAuth } from './v1/middlewares';
-
-const morgan = require('morgan');
 
 // RateLimitter
 const limiter = rateLimit({
