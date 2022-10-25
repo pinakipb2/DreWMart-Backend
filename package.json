@@ -1,0 +1,38 @@
+{
+  "name": "drewmart_backend",
+  "version": "1.0.0",
+  "description": "DrewMart Backend",
+  "main": "app.js",
+  "scripts": {
+    "start": "node -r esm src/app.js",
+    "dev": "nodemon -r esm src/app.js",
+    "addProd": "node -r esm src/manageProduct/addProducts.js",
+    "addCouponItems": "node -r esm src/manageProduct/addCouponItems.js",
+    "dropProd": "node -r esm src/manageProduct/dropProducts.js",
+    "dropAll": "node -r esm src/manageProduct/dropAll.js",
+    "lint": "eslint src/**/*.js",
+    "lint-fix": "exlint src/**/*.js --fix"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^4.3.1",
+    "cors": "^2.8.5",
+    "cuid": "^2.1.8",
+    "dotenv": "^16.0.2",
+    "esm": "^3.2.25",
+    "express": "^4.18.1",
+    "express-rate-limit": "^6.5.2",
+    "helmet": "^6.0.0",
+    "http-errors": "^2.0.0",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "uuid": "^9.0.0",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19",
+    "prisma": "^4.3.1"
+  }
+}
