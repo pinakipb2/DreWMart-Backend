@@ -65,7 +65,7 @@ const ecommerceController = {
         },
         orderBy: [
           {
-            createdAt: 'desc',
+            soldAt: 'desc',
           },
         ],
       });
@@ -108,11 +108,11 @@ const ecommerceController = {
         },
       });
       // Run webhook to revalidate page
-      try {
-        await axios.get(`${process.env.FRONTEND_URL}/api/revalidate?warrantyId=${id}`);
-      } catch (err) {
-        console.log('Could not Revalidate Page');
-      }
+      // try {
+      //   await axios.get(`${process.env.FRONTEND_URL}/api/revalidate?warrantyId=${id}`);
+      // } catch (err) {
+      //   console.log('Could not Revalidate Page');
+      // }
       res.json(product);
     } catch (err) {
       console.log(err.message);
