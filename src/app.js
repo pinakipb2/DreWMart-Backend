@@ -8,7 +8,7 @@ import morgan from 'morgan';
 import xss from 'xss-clean';
 import path from 'path';
 
-import { productRoutes, retailerRoutes, ecommerceRoutes } from './v1/routes';
+import { productRoutes, retailerRoutes, ecommerceRoutes, userRoutes } from './v1/routes';
 import { clientAuth } from './v1/middlewares';
 
 // RateLimitter
@@ -55,6 +55,7 @@ const apiVersion = 'v1';
 app.use(`/api/${apiVersion}/product`, productRoutes);
 app.use(`/api/${apiVersion}/retailer`, retailerRoutes);
 app.use(`/api/${apiVersion}/ecommerce`, ecommerceRoutes);
+app.use(`/api/${apiVersion}/user`, userRoutes);
 
 // 404 Handler
 app.use((req, res, next) => {

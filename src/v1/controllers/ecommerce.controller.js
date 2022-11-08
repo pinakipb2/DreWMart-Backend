@@ -71,6 +71,9 @@ const ecommerceController = {
       });
       const orders = allOrders.map((order) => {
         order.Product = new productDTO(order.Product);
+        if (order.Retailer) {
+          order.Retailer.drewTokens = order.Retailer.drewTokens.toString();
+        }
         return order;
       });
       res.json(orders);
