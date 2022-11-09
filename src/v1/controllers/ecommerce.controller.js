@@ -4,7 +4,7 @@ import { ecommerceSchema, userSchema } from '../validators';
 import { productDTO } from '../dtos';
 import Joi from 'joi';
 import ProductIdService from '../services/ProductIdService';
-import axios from 'axios';
+// import axios from 'axios';
 
 const ecommerceController = {
   async buyProducts(req, res, next) {
