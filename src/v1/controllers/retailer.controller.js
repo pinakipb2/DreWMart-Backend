@@ -45,11 +45,11 @@ const retailerController = {
           arr.push(obj);
         }
       }
-      console.log(arr);
+      // console.log(arr);
       const { count } = await prisma.store.createMany({
         data: arr,
       });
-      console.log('Count' + count);
+      console.log('Count : ' + count);
       if (count !== products.length * ASSIGN_NO_OF_PRODUCTS_TO_RETAILER) {
         // Delete the current Retailer
         await prisma.retailer.delete({
@@ -61,6 +61,19 @@ const retailerController = {
       }
       res.send(retailer);
     } catch (err) {
+      console.log(err);
+      if (err.isJoi === true) {
+        return next(createError.UnprocessableEntity(err.mesasge));
+      }
+      return next(createError.InternalServerError());
+    }
+  },
+  async getAll(req, res, next) {
+    try {
+      const allRetailers = await prisma.retailer.findMany({});
+      res.send(allRetailers);
+    } catch (err) {
+      console.log(err);
       if (err.isJoi === true) {
         return next(createError.UnprocessableEntity(err.mesasge));
       }

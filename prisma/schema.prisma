@@ -14,7 +14,7 @@ model Retailer {
   id              String            @id @default(cuid())
   name            String
   walletAddress   String            @unique
-  drewTokens      BigInt            @default(0)
+  drewTokens      Int               @default(0)
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   Store           Store[]
