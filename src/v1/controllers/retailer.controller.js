@@ -1,7 +1,8 @@
 import createError from 'http-errors';
 import { prisma } from '../../prisma';
-import { retailerSchema } from '../validators';
+import { retailerSchema, userSchema } from '../validators';
 import ProductIdService from '../services/ProductIdService';
+import Joi from 'joi';
 
 const ASSIGN_NO_OF_PRODUCTS_TO_RETAILER = 5;
 
@@ -74,6 +75,141 @@ const retailerController = {
       res.send(allRetailers);
     } catch (err) {
       console.log(err);
+      if (err.isJoi === true) {
+        return next(createError.UnprocessableEntity(err.mesasge));
+      }
+      return next(createError.InternalServerError());
+    }
+  },
+  async loginRetailer(req, res, next) {
+    try {
+      const result = await userSchema.validateAsync(req.body);
+      const { walletAddress } = result;
+      const retailer = await prisma.retailer.findUniqueOrThrow({
+        where: {
+          walletAddress,
+        },
+      });
+      res.send(retailer);
+    } catch (err) {
+      console.log(err.message);
+      if (err.isJoi === true) {
+        return next(createError.UnprocessableEntity(err.mesasge));
+      }
+      return next(createError.InternalServerError());
+    }
+  },
+  async getInventoryByRetailer(req, res, next) {
+    try {
+      const result = await userSchema.validateAsync(req.body);
+      const { walletAddress } = result;
+      const groupItems = await prisma.store.groupBy({
+        by: ['productId'],
+        where: {
+          AND: [
+            { soldTo: null },
+            {
+              Retailer: {
+                walletAddress: walletAddress,
+              },
+            },
+          ],
+        },
+        _count: {
+          productId: true,
+        },
+      });
+      const promises = groupItems.map(async (item) => {
+        const prod = await prisma.product.findUnique({
+          where: {
+            id: item.productId,
+          },
+        });
+        return { id: item.productId, name: prod.name, quantity: item._count.productId };
+      });
+      const inventory = await Promise.all(promises);
+      res.send(inventory);
+    } catch (err) {
+      console.log(err.message);
+      if (err.isJoi === true) {
+        return next(createError.UnprocessableEntity(err.mesasge));
+      }
+      return next(createError.InternalServerError());
+    }
+  },
+  async getSoldProdsByRetailer(req, res, next) {
+    try {
+      const result = await userSchema.validateAsync(req.body);
+      const { walletAddress } = result;
+      const soldProducts = await prisma.store.findMany({
+        where: {
+          AND: [
+            {
+              soldTo: {
+                not: null,
+              },
+            },
+            {
+              Retailer: {
+                walletAddress,
+              },
+            },
+          ],
+        },
+        orderBy: {
+          soldAt: 'desc',
+        },
+        include: {
+          Product: true,
+        },
+      });
+      res.send(soldProducts);
+    } catch (err) {
+      console.log(err.message);
+      if (err.isJoi === true) {
+        return next(createError.UnprocessableEntity(err.mesasge));
+      }
+      return next(createError.InternalServerError());
+    }
+  },
+  async sellProductToUser(req, res, next) {
+    const sellSchema = Joi.object({
+      id: Joi.string().trim().min(20).max(30).required(),
+      soldTo: Joi.string().lowercase().trim().min(35).max(50).required(),
+      walletAddress: Joi.string().lowercase().trim().min(35).max(50).required(),
+    });
+    try {
+      const result = await sellSchema.validateAsync(req.body);
+      const { id, soldTo, walletAddress } = result;
+      const toSoldItem = await prisma.store.findFirstOrThrow({
+        where: {
+          AND: [
+            {
+              soldTo: null,
+            },
+            {
+              Retailer: {
+                walletAddress,
+              },
+            },
+            {
+              productId: id,
+            },
+          ],
+        },
+      });
+      const soldItem = await prisma.store.update({
+        where: {
+          id: toSoldItem.id,
+        },
+        data: {
+          soldTo,
+          soldAt: new Date(),
+        },
+      });
+      res.send(soldItem);
+    } catch (err) {
+      console.log(err.message);
       if (err.isJoi === true) {
         return next(createError.UnprocessableEntity(err.mesasge));
       }

@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 const ecommerceSchema = Joi.object({
-  walletAddress: Joi.string().trim().min(35).max(50).required(),
+  walletAddress: Joi.string().lowercase().trim().min(35).max(50).required(),
   cart: Joi.array()
     .items(
       Joi.object({

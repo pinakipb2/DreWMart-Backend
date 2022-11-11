@@ -11,7 +11,7 @@ const userController = {
       emailId: Joi.string().email().trim().required(),
       phoneNumber: Joi.string().trim().required(),
       address: Joi.string().trim().required(),
-      walletAddress: Joi.string().trim().min(35).max(50).required(),
+      walletAddress: Joi.string().lowercase().trim().min(35).max(50).required(),
     });
     try {
       const result = await userSchema.validateAsync(req.body);
@@ -42,7 +42,7 @@ const userController = {
   async loginUser(req, res, next) {
     const userSchema = Joi.object({
       emailId: Joi.string().email().trim().required(),
-      walletAddress: Joi.string().trim().min(35).max(50).required(),
+      walletAddress: Joi.string().lowercase().trim().min(35).max(50).required(),
     });
     try {
       const result = await userSchema.validateAsync(req.body);

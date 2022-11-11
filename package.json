@@ -12,7 +12,8 @@
     "dropProd": "babel-node src/manageProduct/dropProducts.js",
     "dropAll": "babel-node src/manageProduct/dropAll.js",
     "lint": "eslint src/**/*.js",
-    "lint-fix": "exlint src/**/*.js --fix"
+    "lint-fix": "exlint src/**/*.js --fix",
+    "reset": "npm run dropAll && npm run addProd"
   },
   "keywords": [],
   "license": "MIT",

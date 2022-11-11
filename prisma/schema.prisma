@@ -58,9 +58,9 @@ model Product {
 model Store {
   id                String    @id @default(cuid())
   prodId            String    @unique
-  Product           Product   @relation(fields: [productId], references: [id])
+  Product           Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId         String
-  Retailer          Retailer? @relation(fields: [retailerId], references: [id])
+  Retailer          Retailer? @relation(fields: [retailerId], references: [id], onDelete: Cascade)
   retailerId        String?
   soldTo            String?
   soldAt            DateTime?
@@ -80,9 +80,9 @@ model CouponItems {
 
 model RetailerCoupons {
   id            String      @id @default(cuid())
-  Retailer      Retailer    @relation(fields: [retailerId], references: [id])
+  Retailer      Retailer    @relation(fields: [retailerId], references: [id], onDelete: Cascade)
   retailerId    String
-  CouponItem    CouponItems @relation(fields: [couponItemsId], references: [id])
+  CouponItem    CouponItems @relation(fields: [couponItemsId], references: [id], onDelete: Cascade)
   couponItemsId String
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt

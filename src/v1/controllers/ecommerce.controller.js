@@ -88,7 +88,7 @@ const ecommerceController = {
   async claimWarranty(req, res, next) {
     const warrantySchema = Joi.object({
       id: Joi.string().trim().min(20).max(30).required(),
-      walletAddress: Joi.string().trim().min(35).max(50).required(),
+      walletAddress: Joi.string().lowercase().trim().min(35).max(50).required(),
     });
     try {
       const result = await warrantySchema.validateAsync(req.body);
@@ -125,7 +125,7 @@ const ecommerceController = {
   async getWarrantyInfo(req, res, next) {
     const warrantySchema = Joi.object({
       productID: Joi.string().trim().min(20).max(30).required(),
-      walletAddress: Joi.string().trim().min(35).max(50).required(),
+      walletAddress: Joi.string().lowercase().trim().min(35).max(50).required(),
     });
     try {
       const result = await warrantySchema.validateAsync(req.params);
