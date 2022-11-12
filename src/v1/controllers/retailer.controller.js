@@ -198,6 +198,17 @@ const retailerController = {
           ],
         },
       });
+      const randomReward = Math.floor(Math.random() * 29);
+      const { drewTokens } = await prisma.retailer.update({
+        where: {
+          walletAddress,
+        },
+        data: {
+          drewTokens: {
+            increment: randomReward,
+          },
+        },
+      });
       const soldItem = await prisma.store.update({
         where: {
           id: toSoldItem.id,
@@ -207,7 +218,7 @@ const retailerController = {
           soldAt: new Date(),
         },
       });
-      res.send(soldItem);
+      res.json({ soldItem, drewTokens });
     } catch (err) {
       console.log(err.message);
       if (err.isJoi === true) {
