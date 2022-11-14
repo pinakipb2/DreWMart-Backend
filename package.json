@@ -9,11 +9,12 @@
     "build": "babel src -d build",
     "addProd": "babel-node src/manageProduct/addProducts.js",
     "addCouponItems": "babel-node src/manageProduct/addCouponItems.js",
+    "dropCouponItems": "babel-node src/manageProduct/dropCouponItems.js",
     "dropProd": "babel-node src/manageProduct/dropProducts.js",
     "dropAll": "babel-node src/manageProduct/dropAll.js",
     "lint": "eslint src/**/*.js",
     "lint-fix": "exlint src/**/*.js --fix",
-    "reset": "npm run dropAll && npm run addProd"
+    "reset": "npm run dropAll && npm run addProd && npm run addCouponItems"
   },
   "keywords": [],
   "license": "MIT",

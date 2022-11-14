@@ -9,5 +9,6 @@ router.post('/login', retailerController.loginRetailer);
 router.post('/inventory', retailerController.getInventoryByRetailer);
 router.post('/get-sold-products', retailerController.getSoldProdsByRetailer);
 router.post('/sell-product', retailerController.sellProductToUser);
+router.post('/reset-tokens', retailerController.resetTokenByRetailer);
 
 export default router;

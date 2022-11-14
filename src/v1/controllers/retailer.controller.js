@@ -227,6 +227,27 @@ const retailerController = {
       return next(createError.InternalServerError());
     }
   },
+  async resetTokenByRetailer(req, res, next) {
+    try {
+      const result = await userSchema.validateAsync(req.body);
+      const { walletAddress } = result;
+      const updatedTokens = await prisma.retailer.update({
+        where: {
+          walletAddress,
+        },
+        data: {
+          drewTokens: 0,
+        },
+      });
+      res.send(updatedTokens);
+    } catch (err) {
+      console.log(err);
+      if (err.isJoi === true) {
+        return next(createError.UnprocessableEntity(err.mesasge));
+      }
+      return next(createError.InternalServerError());
+    }
+  },
 };
 
 export default retailerController;

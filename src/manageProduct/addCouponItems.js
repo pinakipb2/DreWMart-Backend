@@ -2,16 +2,28 @@ import { prisma } from "../prisma";
 
 const couponItems = [
   {
+    name: "Tuna",
+    price: 10,
+  },
+  {
+    name: "Trout",
+    price: 90,
+  },
+  {
+    name: "ButterflyFish",
+    price: 200,
+  },
+  {
     name: "GoldFish",
-    price: 100,
+    price: 600,
   },
   {
     name: "Dolphin",
-    price: 500,
+    price: 900,
   },
   {
     name: "Shark",
-    price: 1000,
+    price: 1200,
   },
 ];
 
