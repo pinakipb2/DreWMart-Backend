@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build/app.js",
     "dev": "nodemon --exec babel-node src/app.js",
-    "build": "babel src -d build",
+    "build": "babel src -s -d build",
     "addProd": "babel-node src/manageProduct/addProducts.js",
     "addCouponItems": "babel-node src/manageProduct/addCouponItems.js",
     "dropCouponItems": "babel-node src/manageProduct/dropCouponItems.js",
@@ -35,6 +35,7 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.19.3",
     "@babel/core": "^7.19.3",
     "@babel/node": "^7.19.1",
     "@babel/preset-env": "^7.19.4",
