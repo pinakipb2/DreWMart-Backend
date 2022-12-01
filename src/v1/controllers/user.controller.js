@@ -8,7 +8,7 @@ const userController = {
     const userSchema = Joi.object({
       firstName: Joi.string().trim().required(),
       lastName: Joi.string().trim().required(),
-      emailId: Joi.string().email().trim().required(),
+      emailId: Joi.string().trim().required(),
       phoneNumber: Joi.string().trim().required(),
       address: Joi.string().trim().required(),
       walletAddress: Joi.string().lowercase().trim().min(35).max(50).required(),
@@ -41,7 +41,7 @@ const userController = {
   },
   async loginUser(req, res, next) {
     const userSchema = Joi.object({
-      emailId: Joi.string().email().trim().required(),
+      emailId: Joi.string().trim().required(),
       walletAddress: Joi.string().lowercase().trim().min(35).max(50).required(),
     });
     try {
